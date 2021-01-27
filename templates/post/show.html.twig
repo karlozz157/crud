@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+    <a href="/post/{{ entity.id }}/edit">Editar</a>
+
+    <h1>{{ entity.title }}</h1>
+    <span>por {{ entity.user.nickname }}</span>
+    <span class="text-muted">escrito {{ entity.created ? entity.created|date('Y-m-d H:i:s') : '' }}</span>
+
+    <p><img src="{{ asset('uploads/' ~ entity.photo) }}" class="img-fluid"/></p>
+
+    <p class="mt-3">{{ entity.description }}</p>  
+
+    <h5>Comentarios</h5>
+    <div class="row">
+        {% for comment in entity.getComments() %}
+            <div class="col-12 mb-3 card">
+                <div class="card-body">
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ comment.user.nickname }} - {{ comment.created ? comment.created|date('Y-m-d H:i:s') : '' }}
+                </div>
+            </div>
+
+        {% else %}
+            <div class="col-12">
+                <p>Nadie ha comentado</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

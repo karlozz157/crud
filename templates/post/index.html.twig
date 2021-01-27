@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artículos{% endblock %}
+
+{% block body %}
+    <h1>Artículos</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Título</th>
+                <th>Creado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.user.nickname }}</td>
+                <td>{{ entity.title }}</td>
+                <td>{{ entity.created ? entity.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="/post/{{ entity.id }}">leer</a> | 
+                    <a href="/post/{{ entity.id }}/edit">editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/post/new">Nuevo</a>
+{% endblock %}

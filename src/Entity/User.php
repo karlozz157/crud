@@ -43,10 +43,16 @@ class User
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="user")
+     */
+    private $post;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->post = new ArrayCollection();
     }
 
     /**
@@ -77,11 +83,19 @@ class User
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getNickname(): ?string
     {
         return $this->nickname;
     }
 
+    /**
+     * @param string $nickname
+     * 
+     * @return self
+     */
     public function setNickname(string $nickname): self
     {
         $this->nickname = $nickname;
@@ -97,6 +111,11 @@ class User
         return $this->posts;
     }
 
+    /**
+     * @param Post $post
+     * 
+     * @return self
+     */
     public function addPost(Post $post): self
     {
         if (!$this->posts->contains($post)) {
@@ -107,6 +126,11 @@ class User
         return $this;
     }
 
+    /**
+     * @param Post $post
+     * 
+     * @return self
+     */
     public function removePost(Post $post): self
     {
         if ($this->posts->removeElement($post)) {
@@ -157,7 +181,15 @@ class User
     
        return $this;
     }
-    
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getPost(): Collection
+    {
+        return $this->post;
+    }
+
     /**
      * @return string
      */

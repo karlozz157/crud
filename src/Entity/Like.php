@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UserTrait;
 use App\Repository\LikeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Like
 {
+    use UserTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -18,8 +21,30 @@ class Like
      */
     private $id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="post")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="likes")
+     */
+    private $post;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
+
+        return $this;
     }
 }

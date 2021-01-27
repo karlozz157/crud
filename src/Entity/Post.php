@@ -58,10 +58,16 @@ class Post
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="post")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->setCreated(new \DateTime('now'));
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -169,6 +175,46 @@ class Post
             }
         }
     
+        return $this;
+    }
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param Like $like
+     * 
+     * @return self
+     */
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setPost($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Like $like
+     * 
+     * @return self
+     */
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getPost() === $this) {
+                $like->setPost(null);
+            }
+        }
+
         return $this;
     }
 

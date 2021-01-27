@@ -21,4 +21,4 @@ symfony server:start
 ```
 
 ## Pantallas
-![alt text](https://github.com/karlozz157/crud/blob/master/screenshot1.jpg?raw=true)
+![alt text](https://github.com/karlozz157/crud/blob/master/screenshots/screenshot1.png?raw=true)
